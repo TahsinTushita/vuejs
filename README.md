@@ -1,5 +1,5 @@
 # Vue.js
-**Vue.js** is a javascript framework.
+**Vue.js** is a javascript framework. It's popular for being approachable, versatile and performant.
 ### Add Vue using CDN
 This script needs to be added in our html file.
 ```html
@@ -29,3 +29,8 @@ This script needs to be added in our html file.
  ```html
  <input v-model="header">
 ```
+### Vue.js devtools
+We need to install the **beta version(version 6)** of the **Vue.js devtools** extenion from the chrome web store. The beta version is not available for firefox yet. Then we need to go to manage extensions for this and check **Allow access to file URLs**. 
+ - It injects our Vue intances into the console for us so that we can test and manipulate them without relying on setting them to a variable. 
+ - Helps to keep up with our routes
+ - Helps to keep up with our Vuex store
