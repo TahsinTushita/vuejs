@@ -83,7 +83,7 @@ We need to install the **beta version(version 6)** of the **Vue.js devtools** ex
      ```
      
 ### Methods
-Vuejs has an option named **mathods** for writing methods.
+Vuejs has an option named **mathods** for writing methods. Methods are used for manipulating data while Computed properties are used for transforming them.
 ```js
 methods: {
     methodName(){
@@ -125,7 +125,7 @@ methods: {
       {{item.label}}
      </li>
      ```
-- For adding a regular class to an element, we can use the **class** property or pass a stiring to our bound classes.
+- For adding a regular class that's not to an element, we can use the **class** property or pass a stiring to our bound classes.
   ```html
      <li
       v-for="(item, index) in items" :key="item.id" 
@@ -143,3 +143,17 @@ methods: {
      </li>
   ```
    
+### Computed Properties
+ - The option for writing computed properties is **computed**. 
+ - They're used only for tranforming data for the presentation layer, that's why it's recommended to use a spread operator so that we don't accidentally manipulate any data here.
+ - They can re-render themselves.
+   ```html
+   <p>{{characterCount}}/200</p>
+   ```
+   ```js
+   computed: {
+       characterCount(){
+           return this.newItem.length
+       }
+   }
+   ```
