@@ -1,0 +1,71 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Learning Vue</title>
+    <link rel="stylesheet" href="main.css" />
+    <script src="https://unpkg.com/vue@3"></script>
+  </head>
+  <body class="body">
+    <h1>Hello</h1>
+
+    <div id="app">
+      <!-- attribute binding -->
+      <a :href="url">The Net Ninja</a>
+
+      <div v-if="showBooks">
+        <p class="p">{{title}} - {{author}} - {{age}}</p>
+
+        <ul class="ul">
+          <li
+            v-for="book in books"
+            class="li"
+            :class="{fav: book.isFav}"
+            @click="toggleFav(book)"
+          >
+            <img :src="book.img" :alt="book.title" />
+            <h3 class="h3">{{book.title}}</h3>
+            <p class="p">{{book.author}}</p>
+          </li>
+        </ul>
+
+        <ul class="ul">
+          <li
+            v-for="book in filteredBooks"
+            class="li"
+            :class="{fav: book.isFav}"
+          >
+            <img :src="book.img" :alt="book.title" />
+            <h3 class="h3">{{book.title}}</h3>
+            <p class="p">{{book.author}}</p>
+          </li>
+        </ul>
+
+        <button v-on:click="age++">Increase Age</button>
+        <button v-on:click="age--">Decrease Age</button>
+        <div @click="changeTitle('One of a Kind')">Change Book title</div>
+      </div>
+
+      <button @click="toggleShowBooks">
+        <span v-if="showBooks">Hide Books</span>
+        <span v-else>Show Books</span>
+      </button>
+
+      <div v-show="showBooks">Currently showing books</div>
+
+      <br />
+
+      <!-- mouse events -->
+
+      <div class="box" @mouseover="handleEvent($event, 5)">
+        mouseover (enter)
+      </div>
+      <div class="box" @mouseleave="handleEvent">mouseleave</div>
+      <div class="box" @dblclick="handleEvent">double click</div>
+      <div class="box" @mousemove="handleMousemove">position - {{x}} {{y}}</div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

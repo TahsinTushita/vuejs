@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Shopping List</title>
+        <link rel="stylesheet" href="main.css">
+    </head>
+    <body>
+        <div id="shopping-list">
+            <div class="header">
+                <h1>{{header || "Welcome"}}</h1>
+                <button v-if="editing" @click="doEdit(false)" class="btn btn-cancel">Cancel</button>
+                <button v-else @click="doEdit(true)" class="btn btn-secondary">Add Item</button>
+            </div>
+            <br><br>
+            <div v-if="editing" class="add-item-form">
+                <input @keyup.enter="items.push({id: items.length + 1, label: newItem})"
+                 type="text" v-model="newItem" placeholder="Add an item">
+                 <!-- v-model.lazy="newItem" -->
+                
+            <br>
+            <p>{{characterCount}}/200</p>
+            <br>
+            <label>
+                <input type="checkbox" v-model="newItemHighPriority">
+                High Priority
+            </label>
+            <br><br>
+                <button class="btn btn-primary"
+                 v-on:click="saveItem" v-bind:disabled="newItem.length === 0">Save Item</button>
+                </br>
+            <br>
+            </div>
+            <a :href="newItem">Dynamic Link</a>
+            <p v-if="items.length === 0">Bought everything!</p>
+            <ul>
+                <li
+                 v-for="(item, index) in reversedItems"
+                 @click="togglePurchased(item)"
+                 :key="item.id"
+                 :class="{strikeout: item.purchased,
+                     priority: item.highPriority}">
+                {{index}} {{item.label}}</li>
+            </ul>
+
+            <!-- <ul>    
+                <li
+                 v-for="(item, index) in reversedItems"
+                 :key="item.id"
+                 class="static-class"
+                 :class="[item.purchased ? 'strikeout text-red' : 'underlined']">
+                 {{item.label}}</li>
+            </ul> -->
+
+            <strong>Priority</strong>
+            <label><input type="radio" v-model="newItemPriority" value="high">High</label>
+            <label><input type="radio" v-model="newItemPriority" value="low">Low</label>
+            </br>| {{newItemPriority}}
+            </br>
+            </br>
+            <label>
+                Priority
+
+                <select v-model="selectedItem">
+                    <option value="low">Low</option>
+                    <option value="high">High</option>
+                </select>
+            </label>
+            <br>
+            | {{newItemHighPriority}}
+            <br>
+            <label>
+                <input type="checkbox" v-model="iceCreamFlavours" value="chocolate">
+                Chocolate
+            </label>
+            <label>
+                <input type="checkbox" v-model="iceCreamFlavours" value="cookies-and-cream">
+                Cookies and Cream
+            </label>
+            <label>
+                <input type="checkbox" v-model="iceCreamFlavours" value="cheesecake">
+                Cheesecake
+            </label>
+            
+            <ul>
+                <li v-for="(obj, key) in objects" :key="obj.id">{{key}} {{obj.label}}</li>
+            </ul>
+        </div>
+
+        <script src="https://unpkg.com/vue@3"></script>
+        <script>
+            const shoppingList = Vue.createApp({
+                data(){
+                    return {
+                        header: "Shopping list app",
+                        newItem: "",
+                        newItemPriority: "low",
+                        editing: false,
+                        selectedItem: "low",
+                        newItemHighPriority: false,
+                        iceCreamFlavours: [],
+                        items: [
+                            {id: 1, label: "10 party hats", purchased: true, highPriority: false},
+                            {id: 2, label: "20 cups", purchased: true, highPriority: false},
+                            {id: 3, label: "15 flowers", purchased: false, highPriority: true},
+                        ],
+                        objects: {
+                            "obj-1": {id: 1, label: "object 1"},
+                            "obj-2": {id: 2, label: "object 2"},
+                            "obj-3": {id: 3, label: "object 3"},
+                        }
+                    }
+                },
+                computed: {
+                    characterCount(){
+                        return this.newItem.length
+                    },
+                    reversedItems(){
+                        return [...this.items].reverse()
+                    }
+                },
+                methods: {
+                    saveItem(){
+                        this.items.push({
+                            id: this.items.length + 1,
+                            label: this.newItem,
+                            highPriority: this.newItemHighPriority})
+                        this.newItem = ""
+                        this.newItemHighPriority = false
+                    },
+                    doEdit(editing){
+                        this.editing = editing
+                        this.newItem = ""
+                        this.newItemHighPriority = false
+                    },
+                    togglePurchased(item) {
+                        item.purchased = !item.purchased
+                    }
+                }
+            })
+            .mount("#shopping-list")
+        </script>
+    </body>
+</html>
