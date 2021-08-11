@@ -379,11 +379,12 @@ Declare the prop in the data option of the parent element and bind it to the chi
 ### Emitting custom events
 
 Custom events are used to fire an event in the child component to change something in the parent component.
-Make a method in the child component where the custom event is declared.
+Make a method in the child component where the custom event is declared. Custom events can take extra data as parameter. It is recommended that the event names should be written in kebab-case.
 
 ```js
 methodName() {
-    this.$emit("custom_event_name")
+    this.$emit("custom-event-name")
+    this.$emit("custom-event-name", data)
 }
 ```
 
