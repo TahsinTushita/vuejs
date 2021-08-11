@@ -12,6 +12,13 @@
   - can provide fall-back content (spinner) until data is loaded
 - Provides Typescript support
 
+## Index
+
+- [Add Vue using CDN](#addVueCdn)
+- [Create Vue project](#createProject)
+
+<a name="addVueCdn"></a>
+
 ## Add Vue using CDN
 
 This script needs to be added in our html file.
@@ -42,7 +49,7 @@ This script needs to be added in our html file.
 
 - For displaying this data in the page we can use the double mustache syntax. Remember that the variables created in **data** can only be accessed inside the div where we mounted the app.
   ```html
-  <div id="shopping-list">
+  <div id="div-id">
     <h1>{{header}}</h1>
   </div>
   ```
@@ -50,6 +57,8 @@ This script needs to be added in our html file.
   ```html
   <input v-model="header" />
   ```
+
+<a name="createProject"></a>
 
 ## Create project
 
@@ -72,6 +81,19 @@ This script needs to be added in our html file.
   $ cd project_directory
   $ npm run serve
   ```
+
+### Vue.js lifecycle hooks
+
+[Vue lifecycle diagram](https://v3.vuejs.org/guide/instance.html#lifecycle-diagram)
+
+- **beforeCreate** - this is fired before the creation of the component. We can't access any data or templates here.
+- **created** - this is fired after the component has been created. Only templates can be accessed from here.
+- **beforeMount** - this is fired after the compilation and just before mounting the app. Here we can access all data, events and templates.
+- **mounted** - this is fired after the component is mounted. Most **fetch** requests are created here, but it can be done in created or beforeMount hooks too.
+- **beforeUpdate** - this is fired before re-rendering changed data to the DOM.
+- **updated** - after updating the data to the DOM, this hook is fired.
+- **beforeUnmount** - this is fired before unmounting the component.
+- **unmounted** - this is fired after the component unmounts.
 
 ### Vue.js devtools
 
@@ -98,7 +120,7 @@ template: "<h2>This is the template</h2>";
 
 - We can make an array in the data and render it using **v-for** loop. A unique key should be used for items. It also supports objects.
   ```js
-  items: [
+  listName: [
     { id: 1, label: "item 1" },
     { id: 2, label: "item 2" },
     { id: 3, label: "item 3" },
@@ -113,7 +135,7 @@ template: "<h2>This is the template</h2>";
   ```
 - To check out these list items from the console, we can write
   ```console
-  $vm.data.items
+  $vm.data.listName
   ```
 
 ### Form input bindings
@@ -133,9 +155,7 @@ template: "<h2>This is the template</h2>";
 
 - v-on for click events.
   ```html
-  <button v-else v-on:click="methodName" class="btn btn-secondary">
-    Add Item
-  </button>
+  <button v-on:click="methodName" class="btn btn-secondary">Add Item</button>
   ```
 - v-on with key modifier.
   ```html
@@ -211,7 +231,7 @@ methods: {
       {{item.label}}
     </li>
     ```
-- For adding a regular class that's not to an element, we can use the **class** property or pass a stiring to our bound classes.
+- For adding a regular non-dynamic class to an element, we can use the **class** property or pass a string to our bound classes.
   ```html
      <li
       v-for="(item, index) in items" :key="item.id"
@@ -256,7 +276,7 @@ Each Vue component can have 3 parts. A component must have a template, the other
 - **style** part for styling the component. By default, these styles are global.
 
 Here's how the component tree of a project with multiple component looks like.
-![Component tree](/src/assets/img/component_tree.png "Component Tree")
+![Component tree](./assets/component_tree.png "Component Tree")
 
 ### Template refs
 
@@ -321,12 +341,12 @@ In the parent component, bind the custom event with the method you want to call.
 
 ### Event modifiers
 
-- **.stop** - the events propagation will stop
-- **.prevent** - prevents the events default behavior
-- **.capture** - an event targeting an inner element is handled here before being handled
-- **.self** - only trigger handler if event.target is the element itself
-- **.once** - trigger the event at most once
-- **.passive** - triggers the events default behavior
+- **.stop** - the events propagation will stop.
+- **.prevent** - prevents the events default behavior.
+- **.capture** - an event targeting an inner element is handled here before being handled.
+- **.self** - only trigger handler if event.target is the element itself.
+- **.once** - trigger the event at most once.
+- **.passive** - triggers the events default behavior.
 
 ### Key modifiers
 
@@ -403,7 +423,7 @@ For example, if we want to render a component in a custom div outside of the mai
 Then change the <div> tag of the div you want to teleport to <teleport> and add the **to** attribute to specify the div id or div class you want to teleport to. if you use the id then use **#** and if you use the class, use **.**.
 
 ```html
-<target to="#customDivId">
+<teleport to="#customDivId">
   <ComponentName />
-</target>
+</teleport>
 ```
