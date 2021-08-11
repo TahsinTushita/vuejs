@@ -16,6 +16,28 @@
 
 - [Add Vue using CDN](#addVueCdn)
 - [Create Vue project](#createProject)
+- [Component](#component)
+- [Lifecycle hooks](#lifecycleHooks)
+- [Vue.js devtools](#devtools)
+- [Template syntax and Expressions](#syntax)
+- [List rendering](#list)
+- [Form input bindings](#inputBinding)
+- [User events](#userEvents)
+- [Methods](#methods)
+- [Conditional rendering](#conditional)
+- [Attribute binding](#attributeBinding)
+- [Dynamic CSS classes](#dynamicCssClass)
+- [Computed Properties](#computedProperties)
+- [Template refs](#templateRefs)
+- [Styling](#styling)
+- [Props](#props)
+- [Emitting custom events](#customEvents)
+- [Event modifiers](#eventModifiers)
+- [Key modifiers](#keyModifiers)
+- [System modifiers](#systemModifiers)
+- [Mouse button modifiers](#mouseBtnModifiers)
+- [Slot](#slot)
+- [Teleport](#teleport)
 
 <a name="addVueCdn"></a>
 
@@ -82,6 +104,21 @@ This script needs to be added in our html file.
   $ npm run serve
   ```
 
+<a name="component"></a>
+
+### Component
+
+Each Vue component can have 3 parts. A component must have a template, the other 2 are optional.
+
+- An html template
+- **script** part for exporting the component, importing other componenrs. Here we can define Vue options like **data**, **methods**, **props** etc.
+- **style** part for styling the component. By default, these styles are global.
+
+Here's how the component tree of a project with multiple component looks like.
+![Component tree](./assets/component_tree.png "Component Tree")
+
+<a name="lifecycleHooks"></a>
+
 ### Vue.js lifecycle hooks
 
 [Vue lifecycle diagram](https://v3.vuejs.org/guide/instance.html#lifecycle-diagram)
@@ -95,6 +132,8 @@ This script needs to be added in our html file.
 - **beforeUnmount** - this is fired before unmounting the component.
 - **unmounted** - this is fired after the component unmounts.
 
+<a name="devtools"></a>
+
 ### Vue.js devtools
 
 We need to install the **beta version(version 6)** of the **Vue.js devtools** extenion from the chrome web store. The beta version is not available for firefox yet. Then we need to go to manage extensions for this and check **Allow access to file URLs**.
@@ -102,6 +141,8 @@ We need to install the **beta version(version 6)** of the **Vue.js devtools** ex
 - It injects our Vue intances into the console for us so that we can test and manipulate them without relying on setting them to a variable.
 - Helps to keep up with our routes
 - Helps to keep up with our Vuex store
+
+<a name="syntax"></a>
 
 ### Template syntax and expressions
 
@@ -115,6 +156,8 @@ template: "<h2>This is the template</h2>";
 - Only 1 expression is allowed
 - Variables can't be declared and if statements aren't allowed
 - Ternary expression is allowed, as well as OR
+
+<a name="list"></a>
 
 ### List rendering in Vue 3
 
@@ -138,6 +181,8 @@ template: "<h2>This is the template</h2>";
   $vm.data.listName
   ```
 
+<a name="inputBinding"></a>
+
 ### Form input bindings
 
 - **v-model** supports modifiers like **lazy, number, trim**.
@@ -148,6 +193,8 @@ template: "<h2>This is the template</h2>";
   <input type="text" v-model.lazy="newItem" placeholder="Add an item" />
   ```
 - It can be used with **text, multiline text, checkbox, radio, select**
+
+<a name="userEvents"></a>
 
 ### User Events
 
@@ -171,6 +218,8 @@ template: "<h2>This is the template</h2>";
   <div class="box" @mouseover="handleEvent($event, 5)">mouseover (enter)</div>
   ```
 
+<a name="methods"></a>
+
 ### Methods
 
 Vuejs has an option named **mathods** for writing methods. Methods are used for manipulating data while Computed properties are used for transforming them.
@@ -186,6 +235,8 @@ methods: {
 }
 ```
 
+<a name="conditional"></a>
+
 ### Conditional Rendering
 
 - **v-if**, **v-else**, **v-else-if** and **v-show** is used for conditional rendering of elements.
@@ -198,6 +249,8 @@ methods: {
   ```
 - **v-show** works by toggling an elements **display** css property meaning the element is always present in the DOM. **v-if** removes the element from the DOM if the condition is not satisfied.
 
+<a name="attributeBinding"></a>
+
 ### Attribute Binding
 
 **v-bind** is used to bind attributes to elements. The shorthand syntax for this is **:**.
@@ -207,6 +260,8 @@ methods: {
   Save Item
 </button>
 ```
+
+<a name="dynamicCssClass"></a>
 
 ### Dynamic CSS classes
 
@@ -251,6 +306,8 @@ methods: {
   </li>
   ```
 
+<a name="computedProperties"></a>
+
 ### Computed Properties
 
 - The option for writing computed properties is **computed**.
@@ -267,16 +324,7 @@ methods: {
   }
   ```
 
-### Component
-
-Each Vue component can have 3 parts. A component must have a template, the other 2 are optional.
-
-- An html template
-- **script** part for exporting the component, importing other componenrs. Here we can define Vue options like **data**, **methods**, **props** etc.
-- **style** part for styling the component. By default, these styles are global.
-
-Here's how the component tree of a project with multiple component looks like.
-![Component tree](./assets/component_tree.png "Component Tree")
+<a name="templateRefs"></a>
 
 ### Template refs
 
@@ -296,6 +344,8 @@ handleClick(){
 }
 ```
 
+<a name="styling"></a>
+
 ### Styling
 
 - For any global styling, make a global.css file in the assets folder and import it into the main.js file.
@@ -307,6 +357,8 @@ handleClick(){
   ```.modal h1{}
 
   ```
+
+<a name="props"></a>
 
 ### props
 
@@ -321,6 +373,8 @@ Declare the prop in the data option of the parent element and bind it to the chi
 ```html
 <ChildComponent :header="header" />
 ```
+
+<a name="customEvents"></a>
 
 ### Emitting custom events
 
@@ -339,6 +393,8 @@ In the parent component, bind the custom event with the method you want to call.
 <ChildComponent @customEventName="methodName" />
 ```
 
+<a name="eventModifiers"></a>
+
 ### Event modifiers
 
 - **.stop** - the events propagation will stop.
@@ -347,6 +403,8 @@ In the parent component, bind the custom event with the method you want to call.
 - **.self** - only trigger handler if event.target is the element itself.
 - **.once** - trigger the event at most once.
 - **.passive** - triggers the events default behavior.
+
+<a name="keyModifiers"></a>
 
 ### Key modifiers
 
@@ -362,6 +420,8 @@ The commonly used key aliases provided by Vue for keyboard events are -
 - **.left**
 - **.right**
 
+<a name="systemModifiers"></a>
+
 ### System modifiers
 
 These are for mouse or keyboard events.
@@ -376,11 +436,15 @@ These are for mouse or keyboard events.
   ```
   This event will only fire when only ctrl is pressed.
 
+<a name="mouseBtnModifiers"></a>
+
 ### Mouse button modifiers
 
 - **.left**
 - **.right**
 - **.middle**
+
+<a name="slot"></a>
 
 ### slot
 
@@ -410,6 +474,8 @@ They're useful for passing custom templates into components.
     <slot name="slotName"></slot>
   </template>
   ```
+
+<a name="teleport"></a>
 
 ### Teleport
 
