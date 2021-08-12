@@ -409,7 +409,7 @@ In the parent component, bind the custom event with the method you want to call.
 
 ### Key modifiers
 
-The commonly used key aliases provided by Vue for keyboard events are -
+Key modifiers can be used with the keyboard events **@keyup**, **@keydown** and **@keypress**. The commonly used key aliases provided by Vue are -
 
 - **.enter**
 - **.tab**
