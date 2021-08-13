@@ -38,6 +38,7 @@
 - [Mouse button modifiers](#mouseBtnModifiers)
 - [Slot](#slot)
 - [Teleport](#teleport)
+- [Router](#router)
 
 <a name="addVueCdn"></a>
 
@@ -494,3 +495,63 @@ Then change the <div> tag of the div you want to teleport to <teleport> and add 
   <ComponentName />
 </teleport>
 ```
+
+<a name="router"></a>
+
+### Router
+
+Vue.js automatically sets up the routing files for a project if the **Router** feature is selected manually at the start of project creation. The **history mode** for router should also be selected. After project creation we'll see that -
+
+- There's a folder named router that consists of an **index.js** file. This file contains all the routes for the project. The **path** property is not case-sensitive.
+- The routes are also defined in the **App.vue** file with **<router-link>** tag. For better maintainability, the routes should be declared using their **name** attributes.
+- All the pages that have a routing link should be inside the **views** folder while the reusable components that are not page specific should be inside the **components** folder. The components that work on the same page should be inside separate folders for readability.
+
+#### Route parameter
+
+- used for nested routes. For example: **routeName/:paramName**. It can be accessed inside a component by writing **$route.params.paramName**.
+- The parameter should be passed inside a <router-link> in this way.
+  ```js
+  <router-link :to="{ name: 'PathName', params: { paramName: param } }">
+        <h2>{{ Link name }}</h2>
+  </router-link>
+  ```
+- Route parameters can be passed as **props** in a component. In this case the **props** property should be set to true in the route object of that component in the index.js file.
+
+  ```js
+  {
+    path: "/path",
+    name: "PathName",
+    component: ComponentName,
+    props: true,
+  }
+  ```
+
+#### Navigation
+
+- A path can be redirected by using the **redirect** property of the route object.
+  ```js
+  {
+    path: "/path",
+    redirect: "/redirect-path"
+  }
+  ```
+- For catching all the routes that don't exist, a not found component should be made and it's path should be set to **/:catchAll(.\*)**.
+
+  ```js
+  {
+    path: "/:catchAll(.*)",
+    name: "PathName",
+    component: ComponentName,
+  }
+  ```
+
+- The router object also provides methods to redirect, navigate backwards or forward.
+  - **redirect**:
+  ```js
+  $router.push({ name: "PathName" });
+  ```
+  - **navigate backwards/forward**:
+  ```js
+  $router.go(-1);
+  $router.go(1);
+  ```
