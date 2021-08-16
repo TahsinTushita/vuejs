@@ -505,6 +505,7 @@ Vue.js automatically sets up the routing files for a project if the **Router** f
 - There's a folder named router that consists of an **index.js** file. This file contains all the routes for the project. The **path** property is not case-sensitive.
 - The routes are also defined in the **App.vue** file with **<router-link>** tag. For better maintainability, the routes should be declared using their **name** attributes.
 - All the pages that have a routing link should be inside the **views** folder while the reusable components that are not page specific should be inside the **components** folder. The components that work on the same page should be inside separate folders for readability.
+- If we don't select the Router option when creating the app, we can also set up the router ourselves by installing the **vue-router** package.
 
 #### Route parameter
 
@@ -545,7 +546,7 @@ Vue.js automatically sets up the routing files for a project if the **Router** f
   }
   ```
 
-- The router object also provides methods to redirect, navigate backwards or forward.
+- The router object also provides methods to redirect, navigate backwards or forward inside a component.
   - **redirect**:
   ```js
   $router.push({ name: "PathName" });
