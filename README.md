@@ -39,6 +39,7 @@
 - [Slot](#slot)
 - [Teleport](#teleport)
 - [Router](#router)
+- [Composition API](#compositionApi)
 
 <a name="addVueCdn"></a>
 
@@ -555,4 +556,41 @@ Vue.js automatically sets up the routing files for a project if the **Router** f
   ```js
   $router.go(-1);
   $router.go(1);
+  ```
+
+<a name="compositionApi"></a>
+
+### Composition API
+
+Generally we use the **Options API** provided by Vue to create components where variables, methods, computed properties all have to be written in separate options.
+
+Composition API offers a **setup** hook where all of the functionalities needed to create a component can be written in one place, inside the setup hook, kind of like render in react.
+
+- The **setup hook** runs before any other hooks
+- we can declare variables and methods inside it
+- Variables declared inside are not reactive like variables in data component. So to make the variables reactive, we can use **Template refs** by importing **ref** from **vue**. These variables can be accessed by their names in the template and by variable_name.value in the script.
+
+  ```js
+  const var_name = ref(value);
+  ```
+
+- There's another alternative to make variables reactive in setup. That is by writing the variables inside **reactive**. But one thing to note is that**primitive values** don't work with reactive.
+- To use any of the variables or methods inside the template, we have to return them from setup.
+- **this** keyword is not available in setup
+- **computed properties** can be used in setup using the **computed** function. **watch** and **watchEffect** can also be used in this way.
+- **watch** function takes what to watch as an argument and calls a function if that property changes. The **watchEffect** function runs initially once. Both of these watchers have to be stopped manually.
+- We can use **props** in setup using **setup(props)**.
+- To use lifecycle hooks inside **setup**, we needto use **on** before the name of each hook and import the hook from vue. For example, **onMounted**. Lifecycle hooks can also be used like before outside the setup hook.
+
+#### Reusable Composable functions
+
+We can write reusable functions to use with the setup hook. The steps for creating a function are -
+
+- Create a folder named **composables** in src and create a js file for the composable function
+- Write the function and return the values you need to use in the component where you'll call this function
+- Import the function in the vue file you want to use it in
+- call the function and store data in variables
+
+  ```js
+  const { var1, var2, var3 } = functionName();
   ```
