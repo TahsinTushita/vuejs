@@ -40,6 +40,7 @@
 - [Teleport](#teleport)
 - [Router](#router)
 - [Composition API](#compositionApi)
+- [Vuex Store](#vuexStore)
 
 <a name="addVueCdn"></a>
 
@@ -228,12 +229,12 @@ Vuejs has an option named **mathods** for writing methods. Methods are used for 
 
 ```js
 methods: {
-    methodName(){
-       this.items.push({
-            id: this.items.length + 1,
-            label: this.newItem})
-            this.newItem = ""
-    }
+  methodName(){
+    this.items.push({
+      id: this.items.length + 1,
+      label: this.newItem})
+      this.newItem = ""
+  }
 }
 ```
 
@@ -569,18 +570,44 @@ Composition API offers a **setup** hook where all of the functionalities needed 
 - The **setup hook** runs before any other hooks
 - we can declare variables and methods inside it
 - Variables declared inside are not reactive like variables in data component. So to make the variables reactive, we can use **Template refs** by importing **ref** from **vue**. These variables can be accessed by their names in the template and by variable_name.value in the script.
-
-  ```js
-  const var_name = ref(value);
-  ```
-
 - There's another alternative to make variables reactive in setup. That is by writing the variables inside **reactive**. But one thing to note is that**primitive values** don't work with reactive.
 - To use any of the variables or methods inside the template, we have to return them from setup.
+
+  ```js
+    setup() {
+      const varName = ref(value);
+      const methodName = () => {
+        //method body
+      }
+
+      return { varName, methodName }
+    }
+  ```
+
 - **this** keyword is not available in setup
 - **computed properties** can be used in setup using the **computed** function. **watch** and **watchEffect** can also be used in this way.
+
+  ```js
+  const methodName = computed(() => {
+    return names.value.filter((name) => name.includes(search.value));
+  });
+
+  const stopWatch = watch(property_to_watch, () => {
+    console.log("watch ran");
+  });
+
+  const stopWatchEffect = watchEffect(() => {
+    console.log("watchEffect ran", property_to_watch.value);
+  });
+  ```
+
 - **watch** function takes what to watch as an argument and calls a function if that property changes. The **watchEffect** function runs initially once. Both of these watchers have to be stopped manually.
 - We can use **props** in setup using **setup(props)**.
 - To use lifecycle hooks inside **setup**, we needto use **on** before the name of each hook and import the hook from vue. For example, **onMounted**. Lifecycle hooks can also be used like before outside the setup hook.
+
+  ```js
+  onMounted(() => console.log("Component Mounted"));
+  ```
 
 #### Reusable Composable functions
 
@@ -593,4 +620,122 @@ We can write reusable functions to use with the setup hook. The steps for creati
 
   ```js
   const { var1, var2, var3 } = functionName();
+  return { var1, var2, var3 };
   ```
+
+<a name="vuexStore"></a>
+
+### Vuex Store
+
+The vuex store is a centralized state management system for larger applications. The states of all the components are stored in here and it can be accessed from any component.
+
+To setup vuex store -
+
+- select Vuex option when creating the app. This creates a **store** folder in src with an **index.js** file.
+- **state** - This is equivalent to the **data** option in a component where all the data is stored.
+
+  ```js
+  state: {
+    elementName: 0,
+  }
+  ```
+
+  To access a state element from a component -
+
+  ```html
+  <div>{{ $store.state.elementName }}</div>
+  ```
+
+- **mutations** - functions for changing the state are written here. We can not write asynchronus code here. Calling a function from mutation is known as commiting a mutation.
+
+  ```js
+  mutations: {
+    functionName(state) {
+      //change state property
+    }
+  }
+  ```
+
+  To commit a mutation from a component -
+
+  ```html
+  <button @click="$store.commit('function_name')">Button</button>
+  ```
+
+- **actions** - asynchronus code and code to call mutations functions is written here. It can access the state but can not change it directly. For changing the state, it needs to call a functions from mutations. Calling a function from actions is known as dispatching an action.
+
+  ```js
+    actions: {
+      actionName() {
+        //action body
+      }
+    }
+  ```
+
+  To dispatch an action from a component -
+
+  ```html
+  <button @click="$store.dispatch('action_name')">Button</button>
+  ```
+
+  **mutations functions should be called from actions, not directly from components. So there should always be two sets of the same function, one for mutations and another for actions.**
+
+  To mutate the state using actions, we need to recieve a **commit** object as a parameter on the action. Then we can call a mutations function using commit and pass on the payload required to mutate the state. We also need to recieve the **payload** in the mutations function as a parameter along state.
+
+  ```js
+  mutations: {
+    functionName(state, payload) {
+      state.propertyName += payload
+    }
+  },
+  actions: {
+    actionName({ commit }) {
+      axios("api_endpoint")
+      .then(response => {
+        commit('mutationsFunctionsName', payload)
+      })
+    }
+  }
+  ```
+
+  An action can also recieve additional parameters other than commit.
+
+  ```js
+  actionName({ commit }, payload) {
+    // action body
+  }
+  ```
+
+- **getters** - getters are used for getting data from the state and modifying it before sending to a component, kind of like a computed property.
+  To create a getter, we need to write a getter function that takes state as a parameter and returns a modified version of some property of the state.
+
+  ```js
+  getters: {
+    getterName(state) {
+      return state.property * 2;
+    }
+  }
+  ```
+
+- **modules** - this is used to divide the store into separate modules where each module has its own state, mutations and actions.
+
+#### Vuex with text inputs and two way binding
+
+For input, we have to bind the input with v-model to a computed property that includes a getter and setter. The getter gets the property value from the state while the setter dispatches an action for commiting a mutation to change the state.
+
+```html
+<input v-model="computedPropertyName" />
+```
+
+```js
+computed: {
+  computedPropertyName: {
+    get() {
+      return this.$store.state.propertyName
+    },
+    set(newValue) {
+      this.$store.dispatch('actionName', newValue)
+    }
+  }
+}
+```
