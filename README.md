@@ -114,7 +114,7 @@ This script needs to be added in our html file.
 Each Vue component can have 3 parts. A component must have a template, the other 2 are optional.
 
 - An html template
-- **script** part for exporting the component, importing other componenrs. Here we can define Vue options like **data**, **methods**, **props** etc.
+- **script** part for exporting the component, importing other components. Here we can define Vue options like **data**, **methods**, **props** etc.
 - **style** part for styling the component. By default, these styles are global.
 
 Here's how the component tree of a project with multiple component looks like.
@@ -357,8 +357,9 @@ handleClick(){
   - we can use the **scoped** property in style tag like this<style scoped>. The way it works is that some random data attribute is added to the style tags and the html elements that use the styles of that class so it appears different than the global styles.
   - make the class names more specific to that component. For example, for a Modal class the styling for h1 can be like this -
 
-  ```.modal h1{}
-
+  ```css
+  .modal h1 {
+  }
   ```
 
 <a name="props"></a>
