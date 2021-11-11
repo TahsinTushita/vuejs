@@ -1,8 +1,9 @@
 <template>
   <h1>{{ title }}</h1>
   <br>
-  <input type="text" ref="name">
+  <input type="text" ref="name" v-model="inputField">
   <button @click="handleClick">Click</button>
+  <p>{{ inputField }}</p>
 
   <p>Welcome . . .</p>
   <teleport to="#modals" v-if="showModal">
@@ -42,7 +43,8 @@ export default {
       header: "Modal",
       text: "modal content",
       showModal: false,
-      showModalTwo: false
+      showModalTwo: false,
+      inputField: "",
     }
   },
 
